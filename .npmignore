@@ -3,3 +3,4 @@ src
 examples
 .babelrc
 webpack.config.js
+.gitignore
