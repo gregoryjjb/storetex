@@ -19,23 +19,36 @@ const First = () => {
 
 const Second = () => {
     const [second, setSecond] = useStore('second');
-    const [, setStore] = useStore();
     
     return (
         <div>
             <p>Second is {second}</p>
-            <button onClick={() => setStore({ third: 5 })}>
+            <button onClick={() => setSecond(second + 1)}>
                 Increment second
             </button>
         </div>
     )
 }
 
+const Broken = () => {
+    const [store, setStore] = useStore();
+
+    return (
+        <div>
+            <p>Try to set a value that doesn't exist</p>
+            <button onClick={() => setStore({ try: 'Value' })}>
+                Set
+            </button>
+        </div>
+    )
+}
+
 const App = () => (
-    <StoreProvider>
+    <StoreProvider logging={true}>
         <h1>Store Example</h1>
         <First />
         <Second />
+        <Broken />
     </StoreProvider>
 );
 render(<App />, document.getElementById("root"));
