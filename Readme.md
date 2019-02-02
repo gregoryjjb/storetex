@@ -4,6 +4,10 @@
 
 *Extremely* simple state management for React.
 
+[![npm version](https://img.shields.io/npm/v/storetex.svg?colorB=rgb%28203%2C%2056%2C%2055%29&style=flat-square)](https://www.npmjs.com/package/storetex) [![Build Status](https://img.shields.io/travis/com/gregoryjjb/storetex.svg?style=flat-square)](https://travis-ci.com/gregoryjjb/storetex) ![](https://img.shields.io/npm/l/storetex.svg?style=flat-square)
+
+-----
+
 ## Usage
 
 Create a Store Provider:
