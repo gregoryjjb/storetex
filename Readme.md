@@ -66,3 +66,26 @@ const App = withStore(({ store, setStore}) => (
     </div>
 ));
 ```
+
+## Type Safety
+
+Stortex will not insert a value into the store if it is either the wrong type or the key did not previously exist. For instance, if you have:
+
+```
+const StoreContext = createStore({ str: 'value', num: 10 });
+```
+
+Then the following will fail:
+
+```
+// Wrong type
+setStore({ str: 567 });
+setStore({ num: '10' });
+
+// Doesn't exist
+setStore({ what: 'who' });
+```
+
+Validation happens on a key-by-key basis, so other values passed in will still be updated if they are okay.
+
+Since `null` is considered to be an object in Javascript, only set an initial value to `null` if you want that key to be an object in the future, not a literal.
