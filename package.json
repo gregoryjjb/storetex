@@ -2,6 +2,10 @@
   "name": "storetex",
   "version": "0.2.0",
   "description": "Context-based global state management for React",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gregoryjjb/storetex.git"
+  },
   "main": "dist/index.js",
   "scripts": {
     "test": "jest",
