@@ -151,8 +151,6 @@ describe('Type Checking Tests', () => {
             </StoreContext>
         );
 
-        console.log(wrapper.debug());
-
         expect(wrapper.find('p').contains('num is 1234')).toBeTruthy();
         wrapper.find('button').simulate('click');
         expect(wrapper.find('p').contains('num is 1234')).toBeTruthy();

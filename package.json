@@ -7,7 +7,7 @@
     "test": "jest",
     "start": "webpack-dev-server --mode development",
     "build": "babel src -d dist --copy-files",
-    "prepublishOnly": "npm run build"
+    "prepublishOnly": "npm test && npm run build"
   },
   "author": "Greg Brisebois",
   "license": "ISC",
