@@ -16,29 +16,35 @@ export const createStore = defaultState => {
         state = {
             ...defaultState,
         };
+
+        error = (...args) => this.props.logging ? console.error(...args) : undefined;
+        log = (...args) => this.props.logging ? console.log(...args) : undefined;
         
         setStore = values => {
+            let newValues = {};
+
             for(let key in values) {
                 if(types[key] === undefined) {
-                    console.error(`Store error; cannot set '${key}' to '${values[key]}'; no such key`);
+                    this.error(`Store error; cannot set '${key}' to '${values[key]}'; no such key`);
                 }
-                // Typechecking temporarily disabled
-                //else if(typeof values[key] !== types[key]) {
-                //    console.error(`Store type error; cannot set '${key}' (${types[key]}) to '${values[key]}' (${typeof values[key]})`);
-                //    delete values[key];
-                //}
-                else if(this.props.logging) {
-                    console.log(
+                else if(typeof values[key] !== types[key]) {
+                    this.error(`Store type error; cannot set '${key}' (${types[key]}) to '${values[key]}' (${typeof values[key]})`);
+                }
+                else {
+                    this.log(
                         `set %c${key}:`,
                         'background: rgb(0,0,128); color: white; padding: 0 2px;',
                         this.state[key],
                         '->',
                         values[key]
                     );
+
+                    newValues[key] = values[key];
                 }
             }
+
+            this.setState({ ...newValues });
             
-            this.setState({ ...values });
         }
         
         render() {

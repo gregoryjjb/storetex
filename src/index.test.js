@@ -103,3 +103,60 @@ describe('Store Context Tests', () => {
         generalTest(StoreContext, HocClassTest);
     });
 });
+
+describe('Type Checking Tests', () => {
+    it('prevents setting new keys', () => {
+        const StoreContext = createStore({ pass: 'pass' });
+
+        const Child = () => {
+            const [fail, setFail] = useStore('fail');
+
+            return (
+                <div>
+                    <p>{`fail is ${fail}`}</p>
+                    <button onClick={() => setFail('fail')} />;
+                </div>
+            );
+        };
+
+        const wrapper = mount(
+            <StoreContext logging={false}>
+                <Child />
+            </StoreContext>
+        );
+
+        wrapper.find('button').simulate('click');
+        expect(wrapper.find('p').contains('fail is undefined')).toBeTruthy();
+
+        wrapper.unmount();
+    });
+
+    it('prevents setting wrong type', () => {
+        const StoreContext = createStore({ num: 1234 });
+
+        const Child = () => {
+            const [num, setNum] = useStore('num');
+
+            return (
+                <div>
+                    <p>{`num is ${num}`}</p>
+                    <button onClick={() => setNum('string')} />;
+                </div>
+            );
+        };
+
+        const wrapper = mount(
+            <StoreContext logging={false}>
+                <Child />
+            </StoreContext>
+        );
+
+        console.log(wrapper.debug());
+
+        expect(wrapper.find('p').contains('num is 1234')).toBeTruthy();
+        wrapper.find('button').simulate('click');
+        expect(wrapper.find('p').contains('num is 1234')).toBeTruthy();
+        
+        wrapper.unmount();
+    })
+})
