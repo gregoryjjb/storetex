@@ -51,6 +51,7 @@ export const createStore = defaultState => {
             return (
                 <StoreContext.Provider
                     value={{
+                        error: this.error,
                         store: { ...this.state },
                         setStore: this.setStore,
                     }}>
@@ -86,16 +87,25 @@ export const withStore = Comp => props => {
  * @param {string} key Key of value to watch; leave blank for whole store
  */
 export const useStore = (key) => {
-    const { store, setStore } = useContext(StoreContext);
+    const { store, setStore, error } = useContext(StoreContext);
     if(key === undefined) {
         return [
             store,
             setStore,
         ];
     } else {
-        return [
-            store[key],
-            value => setStore({ [key]: value }),
-        ];
+        if(store[key] === undefined) {
+            error(`Store error; cannot get '${key}'; no such key`);
+            return [
+                undefined,
+                value => error(`Store error; cannot set '${key}' to '${value}'; no such key`),
+            ];
+        }
+        else {
+            return [
+                store[key],
+                value => setStore({ [key]: value }),
+            ];
+        }
     }
 }

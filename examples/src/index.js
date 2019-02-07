@@ -30,14 +30,27 @@ const Second = () => {
     )
 }
 
-const Broken = () => {
-    const [store, setStore] = useStore();
+const WrongKey = () => {
+    const [get, set] = useStore('nonexistantKey');
 
     return (
         <div>
             <p>Try to set a value that doesn't exist</p>
-            <button onClick={() => setStore({ try: 'Value' })}>
-                Set
+            <button onClick={() => set('newValue')}>
+                Set 'nonexistantKey' to 'newValue'
+            </button>
+        </div>
+    )
+}
+
+const WrongType = () => {
+    const [get, set] = useStore('first');
+
+    return (
+        <div>
+            <p>Try to set 'first' to a string</p>
+            <button onClick={() => set('newValue')}>
+                Set to 'MyString'
             </button>
         </div>
     )
@@ -48,7 +61,8 @@ const App = () => (
         <h1>Store Example</h1>
         <First />
         <Second />
-        <Broken />
+        <WrongKey />
+        <WrongType />
     </StoreProvider>
 );
 render(<App />, document.getElementById("root"));
